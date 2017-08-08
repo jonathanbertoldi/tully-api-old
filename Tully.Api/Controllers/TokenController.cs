@@ -37,17 +37,18 @@ namespace Tully.Api.Controllers
         [ValidateModel]
         public async Task<IActionResult> CreateToken([FromBody] CredenciaisViewModel model)
         {
-            var usuario = await _userManager.FindByNameAsync(model.Usuario);
+            var user = await _userManager.FindByNameAsync(model.Usuario);
 
-            if (usuario == null) return Unauthorized();
+            if (user == null) return Unauthorized();
 
-            if (_hasher.VerifyHashedPassword(usuario, usuario.PasswordHash, model.Senha) != PasswordVerificationResult.Success) return Unauthorized();
+            if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Senha) != PasswordVerificationResult.Success) return Unauthorized();
 
-            var usuarioClaims = await _userManager.GetClaimsAsync(usuario);
+            var usuarioRoles = await _userManager.GetRolesAsync(user);
+            var usuarioClaims = await _userManager.GetClaimsAsync(user);
 
             var claims = new[]
             {
-                 new Claim(JwtRegisteredClaimNames.Sub, usuario.UserName),
+                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }.Union(usuarioClaims);
 
@@ -63,7 +64,15 @@ namespace Tully.Api.Controllers
                 signingCredentials: creds
             );
 
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), expiration = token.ValidTo });
+            var usuario = new
+            {
+                UserName = user.UserName,
+                Nome = user.Nome,
+                Email = user.Email,
+                Perfil = usuarioRoles[0]
+            };
+
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), expiration = token.ValidTo, usuario = usuario });
         }
     }
 }

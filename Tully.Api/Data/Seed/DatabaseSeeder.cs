@@ -49,7 +49,7 @@ namespace Tully.Api.Data.Seed
 
             if (usuario == null)
             {
-                usuario = new Usuario() { UserName = "admin", Nome = "Usuário Administrador" };
+                usuario = new Usuario() { UserName = "admin", Email = "admin@tully.com", Nome = "Usuário Administrador" };
 
                 var userResult = await _userManager.CreateAsync(usuario, "Senha#123");
                 var roleResult = await _userManager.AddToRoleAsync(usuario, "Admin");
