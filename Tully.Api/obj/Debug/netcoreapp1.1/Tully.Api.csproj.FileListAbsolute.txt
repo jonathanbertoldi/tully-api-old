@@ -1,9 +1,0 @@
-D:\Development\tcc\tully-api\Tully.Api\bin\Debug\netcoreapp1.1\Tully.Api.deps.json
-D:\Development\tcc\tully-api\Tully.Api\bin\Debug\netcoreapp1.1\Tully.Api.runtimeconfig.json
-D:\Development\tcc\tully-api\Tully.Api\bin\Debug\netcoreapp1.1\Tully.Api.runtimeconfig.dev.json
-D:\Development\tcc\tully-api\Tully.Api\bin\Debug\netcoreapp1.1\Tully.Api.dll
-D:\Development\tcc\tully-api\Tully.Api\bin\Debug\netcoreapp1.1\Tully.Api.pdb
-D:\Development\tcc\tully-api\Tully.Api\obj\Debug\netcoreapp1.1\Tully.Api.AssemblyInfo.cs
-D:\Development\tcc\tully-api\Tully.Api\obj\Debug\netcoreapp1.1\Tully.Api.dll
-D:\Development\tcc\tully-api\Tully.Api\obj\Debug\netcoreapp1.1\Tully.Api.pdb
-D:\Development\tcc\tully-api\Tully.Api\obj\Debug\netcoreapp1.1\Tully.Api.csprojResolveAssemblyReference.cache
