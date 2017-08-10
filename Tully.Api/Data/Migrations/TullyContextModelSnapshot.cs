@@ -141,9 +141,7 @@ namespace Tully.Api.Data.Migrations
 
                     b.Property<string>("Estado");
 
-                    b.Property<string>("Experiencia");
-
-                    b.Property<string>("FotoCapa");
+                    b.Property<int>("Experiencia");
 
                     b.Property<string>("FotoPerfil");
 

@@ -38,6 +38,16 @@ namespace Tully.Api
                 .AddEntityFrameworkStores<TullyContext, int>()
                 .AddDefaultTokenProviders();
 
+            services.AddCors(config =>
+            {
+                config.AddPolicy("Web", builder =>
+                {
+                    builder.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
+                });
+            });
+
             services.AddMvc();
         }
 
@@ -61,6 +71,8 @@ namespace Tully.Api
                     ValidateLifetime = true
                 }
             });
+
+            app.UseCors("Web");
 
             app.UseMvc();
         }

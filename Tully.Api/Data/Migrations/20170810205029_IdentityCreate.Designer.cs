@@ -8,7 +8,7 @@ using Tully.Api.Data;
 namespace Tully.Api.Data.Migrations
 {
     [DbContext(typeof(TullyContext))]
-    [Migration("20170809213256_IdentityCreate")]
+    [Migration("20170810205029_IdentityCreate")]
     partial class IdentityCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,9 +142,7 @@ namespace Tully.Api.Data.Migrations
 
                     b.Property<string>("Estado");
 
-                    b.Property<string>("Experiencia");
-
-                    b.Property<string>("FotoCapa");
+                    b.Property<int>("Experiencia");
 
                     b.Property<string>("FotoPerfil");
 

@@ -45,14 +45,52 @@ namespace Tully.Api.Data.Seeders
 
         private async Task SeedUsers()
         {
-            var usuario = await _userManager.FindByNameAsync("admin");
+            var admin = await _userManager.FindByNameAsync("admin");
+
+            if (admin == null)
+            {
+                admin = new Usuario() { UserName = "admin", Email = "admin@tully.com", Nome = "Usuário Administrador" };
+
+                var adminResult = await _userManager.CreateAsync(admin, "Senha#123");
+                var adminRoleResult = await _userManager.AddToRoleAsync(admin, "Admin");
+
+                if (!adminResult.Succeeded || !adminRoleResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Falha na construção do usuário solicitado.");
+                }
+            }
+
+            var admin2 = await _userManager.FindByNameAsync("admin2");
+
+            if (admin2 == null)
+            {
+                admin2 = new Usuario() { UserName = "admin2", Email = "admin2@tully.com", Nome = "Segundo Usuário Administrador" };
+
+                var admin2Result = await _userManager.CreateAsync(admin2, "Senha#123");
+                var admin2RoleResult = await _userManager.AddToRoleAsync(admin2, "Admin");
+
+                if (!admin2Result.Succeeded || !admin2RoleResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Falha na construção do usuário solicitado.");
+                }
+            }
+
+            var usuario = await _userManager.FindByNameAsync("usuario");
 
             if (usuario == null)
             {
-                usuario = new Usuario() { UserName = "admin", Email = "admin@tully.com", Nome = "Usuário Administrador" };
+                usuario = new Usuario()
+                {
+                    UserName = "usuario",
+                    Email = "usuario@tully.com",
+                    Nome = "Usuário Jogador da Silva",
+                    Cidade = "São Paulo",
+                    Estado = "SP",
+                    País = "Brasil"
+                };
 
                 var userResult = await _userManager.CreateAsync(usuario, "Senha#123");
-                var roleResult = await _userManager.AddToRoleAsync(usuario, "Admin");
+                var roleResult = await _userManager.AddToRoleAsync(usuario, "Usuario");
 
                 if (!userResult.Succeeded || !roleResult.Succeeded)
                 {

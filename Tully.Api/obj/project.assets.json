@@ -10656,6 +10656,9 @@
       "originalTargetFrameworks": [
         "netcoreapp1.1"
       ],
+      "files": {
+        "lib/netcoreapp1.1/Tully.Api.dll": "D:\\Development\\tcc\\tully-api\\Tully.Api\\bin\\placeholder\\netcoreapp1.1\\Tully.Api.dll"
+      },
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {}
@@ -10665,15 +10668,31 @@
     "frameworks": {
       "netcoreapp1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+          "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "1.1.2"
+            "version": "1.1.1"
+          },
+          "AutoMapper": {
+            "target": "Package",
+            "version": "6.0.2"
+          },
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+            "target": "Package",
+            "version": "2.0.1"
+          },
+          "Microsoft.ApplicationInsights.AspNetCore": {
+            "target": "Package",
+            "version": "2.0.0"
           },
           "Microsoft.AspNetCore": {
             "target": "Package",
             "version": "1.1.1"
           },
-          "Microsoft.EntityFrameworkCore": {
+          "Microsoft.AspNetCore.Mvc": {
+            "target": "Package",
+            "version": "1.1.2"
+          },
+          "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "1.1.2"
           },
@@ -10681,24 +10700,19 @@
             "target": "Package",
             "version": "1.1.1"
           },
-          "Microsoft.EntityFrameworkCore.Tools": {
-            "target": "Package",
-            "version": "1.1.1"
-          },
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-            "target": "Package",
-            "version": "2.0.1"
-          },
-          "Microsoft.EntityFrameworkCore.Design": {
+          "Microsoft.AspNetCore.Identity": {
             "target": "Package",
             "version": "1.1.2"
           },
-          "Microsoft.NETCore.App": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
-            "version": "1.1.1",
-            "autoReferenced": true
+            "version": "1.1.2"
           },
-          "Microsoft.AspNetCore.Authentication.JwtBearer": {
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "1.1.2"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
             "version": "1.1.2"
           },
@@ -10706,21 +10720,9 @@
             "target": "Package",
             "version": "1.1.2"
           },
-          "AutoMapper": {
+          "Microsoft.EntityFrameworkCore.Tools": {
             "target": "Package",
-            "version": "6.0.2"
-          },
-          "Microsoft.AspNetCore.Mvc": {
-            "target": "Package",
-            "version": "1.1.2"
-          },
-          "Microsoft.ApplicationInsights.AspNetCore": {
-            "target": "Package",
-            "version": "2.0.0"
-          },
-          "Microsoft.AspNetCore.Identity": {
-            "target": "Package",
-            "version": "1.1.2"
+            "version": "1.1.1"
           }
         }
       }

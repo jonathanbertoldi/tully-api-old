@@ -7,8 +7,7 @@ namespace Tully.Api.Models
     {
         public string Nome { get; set; }
         public string FotoPerfil { get; set; }
-        public string FotoCapa { get; set; }
-        public string Experiencia { get; set; }
+        public int Experiencia { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string País { get; set; }
