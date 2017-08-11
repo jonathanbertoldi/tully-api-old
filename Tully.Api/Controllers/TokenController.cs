@@ -50,7 +50,8 @@ namespace Tully.Api.Controllers
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                 new Claim("roles", String.Join(", ", usuarioRoles))
             }.Union(usuarioClaims);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
@@ -78,9 +79,32 @@ namespace Tully.Api.Controllers
 
         [Authorize]
         [HttpGet("validar")]
-        public IActionResult ValidateToken()
+        public async Task<IActionResult> ValidateToken()
         {
-            return Ok();
+            var username = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByNameAsync(username);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var usuario = new
+            {
+                UserName = user.UserName,
+                Nome = user.Nome,
+                Email = user.Email,
+                Perfil = roles[0]
+            };
+
+            var authorizationHeader = HttpContext.Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString().Remove(0, 7);
+
+            var jwt = new JwtSecurityToken(authorizationHeader);
+
+            var response = new
+            {
+                token = jwt.RawData,
+                expiration = jwt.ValidTo,
+                usuario = usuario
+            };
+
+            return Ok(response);
         }
     }
 }
