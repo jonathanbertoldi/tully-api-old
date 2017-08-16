@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Tully.Api.Data;
 using Tully.Api.Data.Seeders;
+using Tully.Api.Identity;
 using Tully.Api.Models;
 
 namespace Tully.Api
@@ -36,6 +38,8 @@ namespace Tully.Api
             services.AddTransient<DatabaseSeeder>();
 
             services.AddDbContext<TullyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 
             services.AddIdentity<Usuario, Perfil>()
                 .AddEntityFrameworkStores<TullyContext, int>()

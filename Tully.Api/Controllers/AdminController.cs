@@ -59,10 +59,11 @@ namespace Tully.Api.Controllers
             var admin = Mapper.Map<Usuario>(model);
 
             var userResult = await _userManager.CreateAsync(admin, model.Password);
-            var roleResult = await _userManager.AddToRoleAsync(admin, "Admin");
 
             if (!userResult.Succeeded)
                 return StatusCode(409, userResult.Errors);
+
+            var roleResult = await _userManager.AddToRoleAsync(admin, "Admin");
 
             if (!roleResult.Succeeded)
                 return StatusCode(409, roleResult.Errors);
