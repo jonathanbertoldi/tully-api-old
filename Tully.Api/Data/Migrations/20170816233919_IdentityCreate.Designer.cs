@@ -8,7 +8,7 @@ using Tully.Api.Data;
 namespace Tully.Api.Data.Migrations
 {
     [DbContext(typeof(TullyContext))]
-    [Migration("20170810205029_IdentityCreate")]
+    [Migration("20170816233919_IdentityCreate")]
     partial class IdentityCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,9 @@ namespace Tully.Api.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("CriadoEm");
+                    b.Property<DateTime>("CriadoEm")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "GETDATE()");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -144,7 +146,10 @@ namespace Tully.Api.Data.Migrations
 
                     b.Property<int>("Experiencia");
 
-                    b.Property<string>("FotoPerfil");
+                    b.Property<string>("FotoPerfil")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "'fotos_perfil/default-photo.jpg'");
 
                     b.Property<bool>("LockoutEnabled");
 

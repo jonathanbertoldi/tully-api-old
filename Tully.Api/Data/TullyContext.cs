@@ -12,7 +12,18 @@ namespace Tully.Api.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Usuario>(b => b.ToTable("Usuario"));
+            builder.Entity<Usuario>(b =>
+            {
+                b.ToTable("Usuario");
+
+                b.Property(u => u.FotoPerfil)
+                    .IsRequired()
+                    .ForSqlServerHasDefaultValueSql("'fotos_perfil/default-photo.jpg'");
+
+                b.Property(u => u.CriadoEm)
+                    .IsRequired()
+                    .ForSqlServerHasDefaultValueSql("GETDATE()");
+            });
             builder.Entity<Perfil>(b => b.ToTable("Perfil"));
         }
     }

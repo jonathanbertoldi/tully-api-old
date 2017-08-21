@@ -62,7 +62,7 @@ namespace Tully.Api.Controllers
                 issuer: _configuration["Tokens:Issuer"],
                 audience: _configuration["Tokens:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTime.UtcNow.AddMonths(1),
                 signingCredentials: creds
             );
 

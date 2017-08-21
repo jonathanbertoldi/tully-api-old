@@ -65,6 +65,8 @@ namespace Tully.Api
 
             databaseSeeder.Seed().Wait();
 
+            app.UseFileServer();
+
             app.UseJwtBearerAuthentication(new JwtBearerOptions()
             {
                 AutomaticAuthenticate = true,

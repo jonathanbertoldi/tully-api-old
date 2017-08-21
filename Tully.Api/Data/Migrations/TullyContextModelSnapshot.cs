@@ -132,7 +132,9 @@ namespace Tully.Api.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("CriadoEm");
+                    b.Property<DateTime>("CriadoEm")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "GETDATE()");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -143,7 +145,10 @@ namespace Tully.Api.Data.Migrations
 
                     b.Property<int>("Experiencia");
 
-                    b.Property<string>("FotoPerfil");
+                    b.Property<string>("FotoPerfil")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "'fotos_perfil/default-photo.jpg'");
 
                     b.Property<bool>("LockoutEnabled");
 

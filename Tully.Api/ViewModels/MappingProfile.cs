@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Tully.Api.Models;
 using Tully.Api.ViewModels.AdminViewModels;
+using Tully.Api.ViewModels.UsuarioViewModels;
 
 namespace Tully.Api.ViewModels
 {
@@ -9,6 +10,7 @@ namespace Tully.Api.ViewModels
         public MappingProfile()
         {
             CreateMap<Usuario, AdminViewModel>();
+            CreateMap<Usuario, UsuarioViewModel>();
 
             CreateMap<AdminPostViewModel, Usuario>();
         }
