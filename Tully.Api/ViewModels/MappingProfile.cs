@@ -10,9 +10,12 @@ namespace Tully.Api.ViewModels
         public MappingProfile()
         {
             CreateMap<Usuario, AdminViewModel>();
-            CreateMap<Usuario, UsuarioViewModel>();
+            CreateMap<Usuario, AdminUpdateViewModel>();
 
             CreateMap<AdminPostViewModel, Usuario>();
+            CreateMap<AdminUpdateViewModel, Usuario>();
+
+            CreateMap<Usuario, UsuarioViewModel>();
         }
     }
 }

@@ -74,16 +74,25 @@ namespace Tully.Api.Controllers
             return CreatedAtRoute("GetAdmin", new { adminId = admin.Id }, result);
         }
 
+        [ValidateModel]
         [HttpPatch("{adminId}")]
         public async Task<IActionResult> PatchAdmin(int adminId, [FromBody] JsonPatchDocument<AdminUpdateViewModel> patchDocument)
         {
-            // if (patchDocument == null) return BadRequest();
+            if (patchDocument == null) return BadRequest();
 
             var admin = await _userManager.FindByIdAsync(adminId.ToString());
+            var isAdmin = await _userManager.IsInRoleAsync(admin, "Admin");
 
-            if (admin == null) return NotFound();
+            if (admin == null || !isAdmin) return NotFound();
 
-            return Ok();
+            var adminToPatch = Mapper.Map<AdminUpdateViewModel>(admin);
+            patchDocument.ApplyTo(adminToPatch, ModelState);
+
+            Mapper.Map(adminToPatch, admin);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

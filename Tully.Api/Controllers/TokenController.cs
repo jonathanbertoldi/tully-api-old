@@ -68,6 +68,7 @@ namespace Tully.Api.Controllers
 
             var usuario = new
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Nome = user.Nome,
                 Email = user.Email,
@@ -87,6 +88,7 @@ namespace Tully.Api.Controllers
 
             var usuario = new
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Nome = user.Nome,
                 Email = user.Email,
