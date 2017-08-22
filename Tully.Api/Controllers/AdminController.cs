@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -71,6 +72,18 @@ namespace Tully.Api.Controllers
             var result = Mapper.Map<AdminViewModel>(admin);
 
             return CreatedAtRoute("GetAdmin", new { adminId = admin.Id }, result);
+        }
+
+        [HttpPatch("{adminId}")]
+        public async Task<IActionResult> PatchAdmin(int adminId, [FromBody] JsonPatchDocument<AdminUpdateViewModel> patchDocument)
+        {
+            // if (patchDocument == null) return BadRequest();
+
+            var admin = await _userManager.FindByIdAsync(adminId.ToString());
+
+            if (admin == null) return NotFound();
+
+            return Ok();
         }
     }
 }
