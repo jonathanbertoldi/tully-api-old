@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\" />
     <Content Include="wwwroot\fotos_perfil\default-photo.jpg" />
+    <Content Include="Dockerfile" CopyToPublishDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />

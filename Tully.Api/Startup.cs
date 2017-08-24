@@ -58,10 +58,15 @@ namespace Tully.Api
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DatabaseSeeder databaseSeeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, TullyContext context, DatabaseSeeder databaseSeeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            if (env.IsProduction())
+            {
+                context.Database.Migrate();
+            }
 
             databaseSeeder.Seed().Wait();
 
