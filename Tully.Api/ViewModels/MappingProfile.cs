@@ -16,6 +16,10 @@ namespace Tully.Api.ViewModels
             CreateMap<AdminUpdateViewModel, Usuario>();
 
             CreateMap<Usuario, UsuarioViewModel>();
+            CreateMap<Usuario, UsuarioUpdateViewModel>();
+
+            CreateMap<UsuarioPostViewModel, Usuario>();
+            CreateMap<UsuarioUpdateViewModel, Usuario>();
         }
     }
 }

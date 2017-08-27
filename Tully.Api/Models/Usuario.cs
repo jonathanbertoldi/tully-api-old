@@ -10,7 +10,7 @@ namespace Tully.Api.Models
         public int Experiencia { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
-        public string País { get; set; }
+        public string Pais { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime? RemovidoEm { get; set; }
     }

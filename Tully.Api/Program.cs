@@ -20,7 +20,7 @@ namespace Tully.Api
                 .UseApplicationInsights()
                 .Build();
 
-            host.Run();
+           host.Run();
         }
     }
 }
