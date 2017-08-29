@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,12 @@ namespace Tully.Api.Controllers
         {
             var role = await _roleManager.FindByNameAsync("Admin");
 
-            var admins = await _context.Users.Where(u => u.Roles.Any(r => r.RoleId == role.Id)).ToListAsync();
+            var admins = await _context
+                .Users
+                .Where(u => u.Roles.Any(r => r.RoleId == role.Id))
+                .Where(u => u.RemovidoEm == null)
+                .ToListAsync();
+
             var result = Mapper.Map<IEnumerable<AdminViewModel>>(admins);
 
             return Ok(result);
@@ -44,7 +50,11 @@ namespace Tully.Api.Controllers
         public async Task<IActionResult> GetAdmin(int adminId)
         {
             var role = await _roleManager.FindByNameAsync("Admin");
-            var admin = await _context.Users.Where(u => u.Roles.Any(r => r.RoleId == role.Id)).FirstOrDefaultAsync(a => a.Id == adminId);
+            var admin = await _context
+                .Users
+                .Where(u => u.Roles.Any(r => r.RoleId == role.Id))
+                .Where(u => u.RemovidoEm == null)
+                .FirstOrDefaultAsync(a => a.Id == adminId);
 
             if (admin == null) return NotFound();
 
@@ -89,6 +99,21 @@ namespace Tully.Api.Controllers
             patchDocument.ApplyTo(adminToPatch, ModelState);
 
             Mapper.Map(adminToPatch, admin);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{adminId}")]
+        public async Task<IActionResult> DeleteAdmin(int adminId)
+        {
+            var admin = await _userManager.FindByIdAsync(adminId.ToString());
+            var isAdmin = await _userManager.IsInRoleAsync(admin, "Admin");
+
+            if (admin == null || !isAdmin) return NotFound();
+
+            admin.RemovidoEm = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
