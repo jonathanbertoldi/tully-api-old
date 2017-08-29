@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -113,6 +114,21 @@ namespace Tully.Api.Controllers
 
             if (!userResult.Succeeded)
                 return BadRequest(userResult.Errors);
+
+            return NoContent();
+        }
+        
+        [HttpDelete("{usuarioId}")]
+        public async Task<IActionResult> DeleteUsuario(int usuarioId)
+        {
+            var usuario = await _userManager.FindByIdAsync(usuarioId.ToString());
+            var isUsuario = await _userManager.IsInRoleAsync(usuario, "Usuario");
+
+            if (usuario == null || !isUsuario) return NotFound();
+
+            usuario.RemovidoEm = DateTime.Now;
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

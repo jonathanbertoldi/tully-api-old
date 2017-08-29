@@ -40,7 +40,7 @@ namespace Tully.Api.Controllers
         {
             var user = await _userManager.FindByNameAsync(model.Usuario);
 
-            if (user == null) return Unauthorized();
+            if (user == null || user.RemovidoEm != null) return Unauthorized();
 
             if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Senha) != PasswordVerificationResult.Success) return Unauthorized();
 
