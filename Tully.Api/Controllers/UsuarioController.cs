@@ -35,7 +35,12 @@ namespace Tully.Api.Controllers
         {
             var role = await _roleManager.FindByNameAsync("Usuario");
 
-            var usuarios = await _context.Users.Where(u => u.Roles.Any(r => r.RoleId == role.Id)).ToListAsync();
+            var usuarios = await _context
+                .Users
+                .Where(u => u.Roles.Any(r => r.RoleId == role.Id))
+                .Where(u => u.RemovidoEm == null)
+                .ToListAsync();
+
             var result = Mapper.Map<IEnumerable<UsuarioViewModel>>(usuarios);
 
             return Ok(result);
@@ -49,6 +54,7 @@ namespace Tully.Api.Controllers
             var usuario = await _context
                 .Users
                 .Where(u => u.Roles.Any(r => r.RoleId == role.Id))
+                .Where(u => u.RemovidoEm == null)
                 .FirstOrDefaultAsync(u => u.Id == usuarioId);
 
             if (usuario == null) return NotFound();
