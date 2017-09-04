@@ -8,9 +8,10 @@ using Tully.Api.Data;
 namespace Tully.Api.Data.Migrations
 {
     [DbContext(typeof(TullyContext))]
-    partial class TullyContextModelSnapshot : ModelSnapshot
+    [Migration("20170904215518_DesafiosCreate")]
+    partial class DesafiosCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -121,7 +122,7 @@ namespace Tully.Api.Data.Migrations
 
                     b.Property<string>("Nome");
 
-                    b.Property<DateTime?>("RemovidoEm");
+                    b.Property<DateTime>("RemovidoEm");
 
                     b.HasKey("Id");
 
@@ -171,6 +172,8 @@ namespace Tully.Api.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("Estado");
 
                     b.Property<int>("Experiencia");
 

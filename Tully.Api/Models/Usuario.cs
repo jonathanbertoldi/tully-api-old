@@ -9,7 +9,6 @@ namespace Tully.Api.Models
         public string FotoPerfil { get; set; }
         public int Experiencia { get; set; }
         public string Cidade { get; set; }
-        public string Estado { get; set; }
         public string Pais { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime? RemovidoEm { get; set; }

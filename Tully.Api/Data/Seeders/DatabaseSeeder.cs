@@ -23,6 +23,7 @@ namespace Tully.Api.Data.Seeders
         {
             await SeedRoles();
             await SeedUsers();
+            await DesafioSeeder.SeedDesafios(_context);
         }
 
         private async Task SeedRoles()
@@ -93,7 +94,6 @@ namespace Tully.Api.Data.Seeders
                     Email = "usuario@tully.com",
                     Nome = "Usuário Jogador da Silva",
                     Cidade = "São Paulo",
-                    Estado = "SP",
                     Pais = "Brasil"
                 };
 
@@ -116,7 +116,6 @@ namespace Tully.Api.Data.Seeders
                     Email = "matheus@tully.com",
                     Nome = "Matheus Vieira",
                     Cidade = "São Paulo",
-                    Estado = "SP",
                     Pais = "Brasil"
                 };
 
@@ -139,7 +138,6 @@ namespace Tully.Api.Data.Seeders
                     Email = "jeff@tully.com",
                     Nome = "Jefferson",
                     Cidade = "São Paulo",
-                    Estado = "SP",
                     Pais = "Brasil"
                 };
 
