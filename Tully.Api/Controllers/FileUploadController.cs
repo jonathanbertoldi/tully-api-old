@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Firebase.Storage;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,16 +24,13 @@ namespace Tully.Api.Controllers
             if (image != null && image.Length > 0)
             {
                 var fileName = $"{Guid.NewGuid()}.jpg";
-                var uploadPath = Path.Combine(_env.WebRootPath, "fotos_perfil");
 
-                using (var stream = new FileStream(Path.Combine(uploadPath, fileName), FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
+                var fileUrl = await new FirebaseStorage("tullyteste.appspot.com")
+                    .Child("fotos_perfil")
+                    .Child(fileName)
+                    .PutAsync(image.OpenReadStream());
 
-                var apiPath = Path.Combine("fotos_perfil", fileName);
-
-                return Ok(apiPath);
+                return Ok(fileUrl);
             }
 
             return BadRequest();
