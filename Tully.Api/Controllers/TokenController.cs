@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 using Tully.Api.Filters;
 using Tully.Api.Models;
 using Tully.Api.ViewModels;
+using Tully.Api.ViewModels.AdminViewModels;
+using Tully.Api.ViewModels.UsuarioViewModels;
 
 namespace Tully.Api.Controllers
 {
@@ -66,16 +69,20 @@ namespace Tully.Api.Controllers
                 signingCredentials: creds
             );
 
-            var usuario = new
+            Object usuario;
+            if (await _userManager.IsInRoleAsync(user, "Usuario"))
+                usuario = Mapper.Map<UsuarioViewModel>(user);
+            else
+                usuario = Mapper.Map<AdminViewModel>(user);
+
+            var response = new
             {
-                Id = user.Id,
-                UserName = user.UserName,
-                Nome = user.Nome,
-                Email = user.Email,
-                Perfil = usuarioRoles[0]
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo,
+                usuario = usuario,
             };
 
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), expiration = token.ValidTo, usuario = usuario });
+            return Ok(response);
         }
 
         [Authorize]

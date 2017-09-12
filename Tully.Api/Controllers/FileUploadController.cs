@@ -30,7 +30,7 @@ namespace Tully.Api.Controllers
                     .Child(fileName)
                     .PutAsync(image.OpenReadStream());
 
-                return Ok(new { fileUrl = fileUrl});
+                return Ok(new { fileUrl = fileUrl });
             }
 
             return BadRequest();
