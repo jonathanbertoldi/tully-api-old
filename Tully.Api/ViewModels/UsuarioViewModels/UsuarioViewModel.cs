@@ -9,7 +9,6 @@
         public string FotoPerfil { get; set; }
         public int Experiencia { get; set; }
         public string Cidade { get; set; }
-        public string Estado { get; set; }
         public string Pais { get; set; }
     }
 }
