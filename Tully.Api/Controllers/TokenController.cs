@@ -80,6 +80,7 @@ namespace Tully.Api.Controllers
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo,
                 usuario = usuario,
+                perfil = usuarioRoles[0],
             };
 
             return Ok(response);
