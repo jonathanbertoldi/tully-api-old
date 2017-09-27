@@ -23,6 +23,8 @@ namespace Tully.Api.ViewModels
             CreateMap<UsuarioUpdateViewModel, Usuario>();
 
             CreateMap<Desafio, DesafioViewModel>();
+
+            CreateMap<DesafioPostViewModel, Desafio>();
         }
     }
 }

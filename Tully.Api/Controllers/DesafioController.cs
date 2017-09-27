@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tully.Api.Data;
+using Tully.Api.Filters;
+using Tully.Api.Models;
 using Tully.Api.ViewModels.DesafioViewModels;
 
 namespace Tully.Api.Controllers
@@ -32,6 +34,34 @@ namespace Tully.Api.Controllers
             var result = Mapper.Map<IEnumerable<DesafioViewModel>>(desafios);
 
             return Ok(result);
+        }
+
+        [HttpGet("{desafioId}", Name = "GetDesafio")]
+        public async Task<IActionResult> GetDesafio(int desafioId)
+        {
+            var desafio = await _context
+                .Desafios
+                .FirstOrDefaultAsync(a => a.Id == desafioId);
+
+            if (desafio == null) return NotFound();
+
+            var result = Mapper.Map<DesafioViewModel>(desafio);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [ValidateModel]
+        public async Task<IActionResult> PostDesafio([FromBody] DesafioPostViewModel model)
+        {
+            var desafio = Mapper.Map<Desafio>(model);
+
+            await _context.Desafios.AddAsync(desafio);
+            await _context.SaveChangesAsync();
+
+            var result = Mapper.Map<DesafioViewModel>(desafio);
+
+            return CreatedAtRoute("GetDesafio", new { desafioId = desafio.Id }, result);
         }
     }
 }
