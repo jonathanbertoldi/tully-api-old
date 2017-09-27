@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,6 +63,20 @@ namespace Tully.Api.Controllers
             var result = Mapper.Map<DesafioViewModel>(desafio);
 
             return CreatedAtRoute("GetDesafio", new { desafioId = desafio.Id }, result);
+        }
+
+        [HttpDelete("{desafioId}")]
+        public async Task<IActionResult> DeleteDesafio(int desafioId)
+        {
+            var desafio = await _context.Desafios.FindAsync(desafioId);
+
+            if (desafio == null) return NotFound();
+
+            desafio.RemovidoEm = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
