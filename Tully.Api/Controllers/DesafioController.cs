@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,15 @@ namespace Tully.Api.Controllers
             var result = Mapper.Map<DesafioViewModel>(desafio);
 
             return CreatedAtRoute("GetDesafio", new { desafioId = desafio.Id }, result);
+        }
+
+        [ValidateModel]
+        [HttpPatch("{desafioId}")]
+        public async Task<IActionResult> PatchDesafio(int desafioId, [FromBody] JsonPatchDocument<DesafioUpdateViewModel> patchDocument)
+        {
+            var desafio = await _context.Desafios.FindAsync(desafioId);
+
+            return Ok();
         }
 
         [HttpDelete("{desafioId}")]
