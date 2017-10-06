@@ -70,7 +70,11 @@ namespace Tully.Api.Controllers
         [HttpPatch("{desafioId}")]
         public async Task<IActionResult> PatchDesafio(int desafioId, [FromBody] JsonPatchDocument<DesafioUpdateViewModel> patchDocument)
         {
+            if (patchDocument == null) return BadRequest();
+            
             var desafio = await _context.Desafios.FindAsync(desafioId);
+
+            if (desafio == null) return NotFound();
 
             return Ok();
         }

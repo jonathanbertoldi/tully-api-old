@@ -8,9 +8,10 @@ using Tully.Api.Data;
 namespace Tully.Api.Data.Migrations
 {
     [DbContext(typeof(TullyContext))]
-    partial class TullyContextModelSnapshot : ModelSnapshot
+    [Migration("20171006205354_RelacionamentoFoto")]
+    partial class RelacionamentoFoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -337,11 +338,13 @@ namespace Tully.Api.Data.Migrations
                 {
                     b.HasOne("Tully.Api.Models.Usuario", "Seguido")
                         .WithMany("Seguidores")
-                        .HasForeignKey("SeguidoId");
+                        .HasForeignKey("SeguidoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Tully.Api.Models.Usuario", "Usuario")
                         .WithMany("Seguindo")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

@@ -5,31 +5,35 @@ using Tully.Api.Models;
 
 namespace Tully.Api.Data
 {
-    public class TullyContext : IdentityDbContext<Usuario, Perfil, int>
+  public class TullyContext : IdentityDbContext<Usuario, Perfil, int>
+  {
+    public DbSet<Desafio> Desafios { get; set; }
+    public DbSet<Relacionamento> Relacionamentos { get; set; }
+    public DbSet<Foto> Fotos { get; set; }
+
+    public TullyContext(DbContextOptions<TullyContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        public DbSet<Desafio> Desafios { get; set; }
+      base.OnModelCreating(builder);
 
-        public TullyContext(DbContextOptions<TullyContext> options) : base(options) { }
+      builder.Entity<Usuario>(b =>
+      {
+        b.ToTable("Usuario");
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+        b.Property(u => u.FotoPerfil)
+                  .IsRequired()
+                  .ForSqlServerHasDefaultValueSql("'fotos_perfil/default-photo.jpg'");
 
-            builder.Entity<Usuario>(b =>
-            {
-                b.ToTable("Usuario");
+        b.Property(u => u.CriadoEm)
+                  .IsRequired()
+                  .ForSqlServerHasDefaultValueSql("GETDATE()");
+      });
+      builder.Entity<Perfil>(b => b.ToTable("Perfil"));
 
-                b.Property(u => u.FotoPerfil)
-                    .IsRequired()
-                    .ForSqlServerHasDefaultValueSql("'fotos_perfil/default-photo.jpg'");
-
-                b.Property(u => u.CriadoEm)
-                    .IsRequired()
-                    .ForSqlServerHasDefaultValueSql("GETDATE()");
-            });
-            builder.Entity<Perfil>(b => b.ToTable("Perfil"));
-
-            DesafioMapping.Map(builder);
-        }
+      DesafioMapping.Map(builder);
+      RelacionamentoMapping.Map(builder);
+      FotoMapping.Map(builder);
     }
+  }
 }
