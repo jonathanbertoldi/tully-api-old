@@ -52,7 +52,8 @@ namespace Tully.Api.Controllers
 
             var claims = new[]
             {
-                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                 new Claim(ClaimTypes.Name, user.UserName),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                  new Claim("roles", String.Join(", ", usuarioRoles))
             }.Union(usuarioClaims);
