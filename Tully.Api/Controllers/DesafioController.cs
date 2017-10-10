@@ -12,6 +12,7 @@ using Tully.Api.Filters;
 using Tully.Api.Models;
 using Tully.Api.ViewModels.DesafioViewModels;
 using Tully.Api.Repositories.Contracts;
+using Tully.Api.Utils;
 
 namespace Tully.Api.Controllers
 {
@@ -21,11 +22,18 @@ namespace Tully.Api.Controllers
   {
     private TullyContext _context;
     private IDesafioRepository _desafioRepository;
+    private IUsuarioRepository _usuarioRepository;
+    private IFotoRepository _fotoRepository;
 
-    public DesafioController(TullyContext context, IDesafioRepository desafioRepository)
+    public DesafioController(TullyContext context, 
+                             IDesafioRepository desafioRepository, 
+                             IUsuarioRepository usuarioRepository,
+                             IFotoRepository fotoRepository)
     {
       _context = context;
       _desafioRepository = desafioRepository;
+      _usuarioRepository = usuarioRepository;
+      _fotoRepository = fotoRepository;
     }
 
     [HttpGet]
@@ -33,7 +41,20 @@ namespace Tully.Api.Controllers
     {
       var desafios = await _desafioRepository.GetDesafios();
 
-      var result = Mapper.Map<IEnumerable<DesafioViewModel>>(desafios);
+      var result = Mapper.Map<ICollection<DesafioViewModel>>(desafios);
+
+      var usuarioId = HttpContext.GetLoggedUserId();
+      var usuario = await _usuarioRepository.GetUsuario(usuarioId);
+
+      if (usuario != null)
+      {
+        var usuarioFotos = await _fotoRepository.GetUsuarioFotos(usuarioId);
+
+        foreach (var foto in usuarioFotos)
+          foreach(var desafio in result)
+            if (desafio.Id == foto.DesafioId)
+              desafio.Realizado = true;
+      }
 
       return Ok(result);
     }

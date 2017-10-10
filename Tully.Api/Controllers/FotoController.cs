@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tully.Api.Models;
 using Tully.Api.Repositories.Contracts;
@@ -66,6 +67,10 @@ namespace Tully.Api.Controllers
 
       var desafio = await _desafioRepository.GetDesafio(model.DesafioId.Value);
       if (desafio == null) return NotFound();
+
+      var usuarioFotos = await _fotoRepository.GetUsuarioFotos(usuarioId);
+      if (!usuarioFotos.Any(a => a.DesafioId == desafio.Id))
+        usuario.Experiencia += 10;
 
       var foto = Mapper.Map<Foto>(model);
 
