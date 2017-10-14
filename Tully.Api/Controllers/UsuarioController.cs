@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tully.Api.Data;
 using Tully.Api.Filters;
 using Tully.Api.Models;
+using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
 
 namespace Tully.Api.Controllers
@@ -137,6 +138,21 @@ namespace Tully.Api.Controllers
       await _context.SaveChangesAsync();
 
       return NoContent();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("usernames")]
+    public async Task<IActionResult> CheckUsername([FromBody] UsernameViewModel model)
+    {
+      var usuario = await _userManager.FindByNameAsync(model.Username);
+
+      if (usuario != null) return BadRequest(new MessageViewModel($"Username {model.Username} is already taken."));
+
+      usuario = await _userManager.FindByEmailAsync(model.Email);
+
+      if (usuario != null) return BadRequest(new MessageViewModel($"Email {model.Email} is already taken."));
+
+      return Ok();
     }
   }
 }

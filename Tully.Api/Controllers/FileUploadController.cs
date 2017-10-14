@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Helpers;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Tully.Api.Services;
 
@@ -36,22 +40,22 @@ namespace Tully.Api.Controllers
       }
 
       return BadRequest();
-    }
-
-    [HttpPost("fotos")]
-    public async Task<IActionResult> UploadFoto(IFormFile image)
-    {
-      if (image != null && image.Length > 0)
-      {
-        var fileName = $"{Guid.NewGuid()}.jpg";
-
-        var fileUrl = await FirebaseStorageService
-          .UploadFile(FirebaseTullyApp, FirebaseFotoPath, fileName, image.OpenReadStream());
-
-        return Ok(new { fileUrl = fileUrl });
-      }
-
-      return BadRequest();
-    }
   }
+
+  [HttpPost("fotos")]
+  public async Task<IActionResult> UploadFoto(IFormFile image)
+  {
+    if (image != null && image.Length > 0)
+    {
+      var fileName = $"{Guid.NewGuid()}.jpg";
+
+      var fileUrl = await FirebaseStorageService
+        .UploadFile(FirebaseTullyApp, FirebaseFotoPath, fileName, image.OpenReadStream());
+
+      return Ok(new { fileUrl = fileUrl });
+    }
+
+    return BadRequest();
+  }
+}
 }
