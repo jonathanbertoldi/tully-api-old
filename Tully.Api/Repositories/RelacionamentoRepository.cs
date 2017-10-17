@@ -65,5 +65,14 @@ namespace Tully.Api.Repositories
         .Include(a => a.Seguido)
         .Where(a => a.RemovidoEm == null)
         .FirstOrDefaultAsync(a => a.Id == relacionamentoId);
+
+    public async Task<Relacionamento> GetRelacionamentoPorUsuario(int usuarioId, int seguidoId) =>
+      await _context.Relacionamentos
+        .Include(a => a.Usuario)
+        .Include(a => a.Seguido)
+        .Where(a => a.UsuarioId == usuarioId)
+        .Where(a => a.SeguidoId == seguidoId)
+        .Where(a => a.RemovidoEm == null)
+        .FirstOrDefaultAsync();
   }
 }

@@ -9,5 +9,6 @@ namespace Tully.Api.Repositories.Contracts
     Task<IEnumerable<Usuario>> GetSeguidores(int usuarioId);
     Task<IEnumerable<Usuario>> GetSeguindo(int usuarioId);
     Task<Relacionamento> GetRelacionamento(int relacionamentoId);
+    Task<Relacionamento> GetRelacionamentoPorUsuario(int usuarioId, int seguidoId);
   }
 }

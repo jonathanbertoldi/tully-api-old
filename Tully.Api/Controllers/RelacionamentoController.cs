@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tully.Api.Models;
@@ -66,7 +67,7 @@ namespace Tully.Api.Controllers
     }
 
     [HttpPost("usuarios/{usuarioId}/seguindo")]
-    public async Task<IActionResult> PostUsuarioSegue(int usuarioId, [FromBody] RelacionamentoPostViewModel model)
+    public async Task<IActionResult> PostSeguir(int usuarioId, [FromBody] RelacionamentoPostViewModel model)
     {
       if (!CheckUserId(usuarioId, model.UsuarioId))
         return BadRequest(new MessageViewModel("URL and Model ids do not match"));
@@ -77,6 +78,9 @@ namespace Tully.Api.Controllers
       var seguido = await _usuarioRepository.GetUsuario(model.SeguidoId);
       if (seguido == null) return BadRequest(new MessageViewModel("Invalid user"));
 
+      var check = await _relacionamentoRepository.GetRelacionamentoPorUsuario(model.UsuarioId, model.SeguidoId);
+      if (check != null) return BadRequest(new MessageViewModel("User already follows the target"));
+
       var relacionamento = Mapper.Map<Relacionamento>(model);
 
       await _repository.Add(relacionamento);
@@ -85,6 +89,20 @@ namespace Tully.Api.Controllers
       var result = Mapper.Map<RelacionamentoViewModel>(relacionamento);
       
       return CreatedAtRoute("GetRelacionamento", new { relacionamentoId = relacionamento.Id }, result);
+    }
+
+    [HttpDelete("usuarios/{usuarioId}/seguindo/{seguidoId}")]
+    public async Task<IActionResult> DeleteSeguir(int usuarioId, int seguidoId)
+    {
+      var relacionamento = await _relacionamentoRepository.GetRelacionamentoPorUsuario(usuarioId, seguidoId);
+
+      if (relacionamento == null) return NotFound();
+
+      relacionamento.RemovidoEm = DateTime.Now;
+
+      await _repository.SaveAllAsync();
+
+      return NoContent();
     }
 
     [NonAction]
