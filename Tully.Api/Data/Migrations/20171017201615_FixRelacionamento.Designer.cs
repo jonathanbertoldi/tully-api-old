@@ -8,9 +8,10 @@ using Tully.Api.Data;
 namespace Tully.Api.Data.Migrations
 {
     [DbContext(typeof(TullyContext))]
-    partial class TullyContextModelSnapshot : ModelSnapshot
+    [Migration("20171017201615_FixRelacionamento")]
+    partial class FixRelacionamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

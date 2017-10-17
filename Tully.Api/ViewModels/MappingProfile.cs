@@ -3,6 +3,7 @@ using Tully.Api.Models;
 using Tully.Api.ViewModels.AdminViewModels;
 using Tully.Api.ViewModels.DesafioViewModels;
 using Tully.Api.ViewModels.FotoViewModels;
+using Tully.Api.ViewModels.RelacionamentoViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
 
 namespace Tully.Api.ViewModels
@@ -29,6 +30,9 @@ namespace Tully.Api.ViewModels
 
       CreateMap<Foto, FotoViewModel>();
       CreateMap<FotoPostViewModel, Foto>();
+
+      CreateMap<Relacionamento, RelacionamentoViewModel>();
+      CreateMap<RelacionamentoPostViewModel, Relacionamento>();
     }
   }
 }

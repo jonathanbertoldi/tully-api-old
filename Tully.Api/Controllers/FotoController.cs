@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tully.Api.Models;
 using Tully.Api.Repositories.Contracts;
+using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.FotoViewModels;
 
 namespace Tully.Api.Controllers
@@ -60,7 +61,8 @@ namespace Tully.Api.Controllers
     [HttpPost("usuarios/{usuarioId}/fotos")]
     public async Task<IActionResult> PostUsuarioFoto(int usuarioId, [FromBody] FotoPostViewModel model)
     {
-      if (!CheckUserId(usuarioId, model.UsuarioId.Value)) return BadRequest("URL and Model ids do not match");
+      if (!CheckUserId(usuarioId, model.UsuarioId.Value))
+        return BadRequest(new MessageViewModel("URL and Model ids do not match"));
 
       var usuario = await _usuarioRepository.GetUsuario(model.UsuarioId.Value);
       if (usuario == null) return NotFound();
