@@ -17,5 +17,7 @@ namespace Tully.Api.Models
     public virtual ICollection<Relacionamento> Seguindo { get; set; }
     public virtual ICollection<Relacionamento> Seguidores { get; set; }
     public virtual ICollection<Foto> Fotos { get; set; }
+    public virtual ICollection<Notificacao> Notificacoes { get; set; }
+    public virtual ICollection<Avaliacao> Avaliacoes { get; set; }
   }
 }

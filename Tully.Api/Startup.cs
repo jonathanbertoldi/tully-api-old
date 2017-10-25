@@ -52,6 +52,7 @@ namespace Tully.Api
       services.AddScoped<IDesafioRepository, DesafioRepository>();
       services.AddScoped<IFotoRepository, FotoRepository>();
       services.AddScoped<IRelacionamentoRepository, RelacionamentoRepository>();
+      services.AddScoped<ITimelineRepository, TimelineRepository>();
 
       services.AddCors(config =>
       {

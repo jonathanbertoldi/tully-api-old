@@ -28,7 +28,9 @@ namespace Tully.Api.ViewModels
 
       CreateMap<DesafioPostViewModel, Desafio>();
 
-      CreateMap<Foto, FotoViewModel>();
+      CreateMap<Foto, FotoViewModel>()
+        .ForMember(a => a.Curtidas, opt => opt.ResolveUsing<FotoCurtidasResolver>())
+        .ForMember(a => a.Descurtidas, opt => opt.ResolveUsing<FotoDescurtidasResolver>());
       CreateMap<FotoPostViewModel, Foto>();
 
       CreateMap<Relacionamento, RelacionamentoViewModel>();

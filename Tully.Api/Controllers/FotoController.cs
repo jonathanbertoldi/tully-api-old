@@ -79,6 +79,8 @@ namespace Tully.Api.Controllers
       await _repository.Add(foto);
       await _repository.SaveAllAsync();
 
+      foto = await _fotoRepository.GetFoto(foto.Id);
+
       var result = Mapper.Map<FotoViewModel>(foto);
 
       return CreatedAtRoute("GetFoto", new { fotoId = foto.Id }, result);

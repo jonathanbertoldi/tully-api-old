@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tully.Api.Models
 {
@@ -14,5 +15,6 @@ namespace Tully.Api.Models
 
     public virtual Usuario Usuario { get; set; }
     public virtual Desafio Desafio { get; set; }
+    public virtual ICollection<Avaliacao> Avaliacoes { get; set; }
   }
 }

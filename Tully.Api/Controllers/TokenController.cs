@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tully.Api.Filters;
 using Tully.Api.Models;
+using Tully.Api.Utils;
 using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.AdminViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
@@ -91,7 +92,7 @@ namespace Tully.Api.Controllers
         [HttpGet("validar")]
         public async Task<IActionResult> ValidateToken()
         {
-            var username = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var username = HttpContext.GetLoggedUserLogin();
             var user = await _userManager.FindByNameAsync(username);
             var roles = await _userManager.GetRolesAsync(user);
 

@@ -66,6 +66,18 @@ namespace Tully.Api.Controllers
       return Ok(result);
     }
 
+    [HttpGet("relacionamentos")]
+    public async Task<IActionResult> GetRelacionamentoByUsers(int usuarioId, int segueId)
+    {
+      var relacionamento = await _relacionamentoRepository.GetRelacionamentoPorUsuario(usuarioId, segueId);
+
+      if (relacionamento == null) return NotFound();
+
+      var result = Mapper.Map<RelacionamentoViewModel>(relacionamento);
+
+      return Ok(result);
+    }
+
     [HttpPost("usuarios/{usuarioId}/seguindo")]
     public async Task<IActionResult> PostSeguir(int usuarioId, [FromBody] RelacionamentoPostViewModel model)
     {

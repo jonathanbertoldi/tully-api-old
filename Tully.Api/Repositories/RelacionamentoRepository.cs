@@ -25,7 +25,7 @@ namespace Tully.Api.Repositories
 
       if (usuario == null) return null;
 
-      var relacionamentos =  await _context.Relacionamentos
+      var relacionamentos = await _context.Relacionamentos
         .Include(a => a.Usuario)
         .Include(a => a.Seguido)
         .Where(a => a.SeguidoId == usuarioId)

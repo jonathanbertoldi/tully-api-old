@@ -10,6 +10,8 @@ namespace Tully.Api.Data
     public DbSet<Desafio> Desafios { get; set; }
     public DbSet<Relacionamento> Relacionamentos { get; set; }
     public DbSet<Foto> Fotos { get; set; }
+    public DbSet<Notificacao> Notificacoes { get; set; }
+    public DbSet<Avaliacao> Avaliacoes { get; set; }
 
     public TullyContext(DbContextOptions<TullyContext> options) : base(options) { }
 
@@ -34,6 +36,8 @@ namespace Tully.Api.Data
       DesafioMapping.Map(builder);
       RelacionamentoMapping.Map(builder);
       FotoMapping.Map(builder);
+      NotificacaoMapping.Map(builder);
+      AvaliacaoMapping.Map(builder);
     }
   }
 }
