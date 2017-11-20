@@ -24,6 +24,7 @@ namespace Tully.Api.Repositories
         .Include(a => a.Fotos)
         .Where(a => a.Id == usuarioId)
         .SelectMany(a => a.Seguindo)
+        .Where(a => a.RemovidoEm == null)
         .Select(a => a.Seguido)
         .SelectMany(a => a.Fotos)
         .Include(a => a.Usuario)
