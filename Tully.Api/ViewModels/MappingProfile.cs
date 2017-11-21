@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Tully.Api.Models;
 using Tully.Api.ViewModels.AdminViewModels;
+using Tully.Api.ViewModels.AvaliacaoViewModels;
 using Tully.Api.ViewModels.DesafioViewModels;
 using Tully.Api.ViewModels.FotoViewModels;
 using Tully.Api.ViewModels.RelacionamentoViewModels;
@@ -35,6 +36,9 @@ namespace Tully.Api.ViewModels
 
       CreateMap<Relacionamento, RelacionamentoViewModel>();
       CreateMap<RelacionamentoPostViewModel, Relacionamento>();
+
+      CreateMap<Avaliacao, AvaliacaoViewModel>();
+      CreateMap<AvaliacaoPostViewModel, Avaliacao>();
     }
   }
 }

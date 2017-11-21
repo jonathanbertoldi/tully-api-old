@@ -21,6 +21,7 @@ namespace Tully.Api.Repositories
       await _context.Avaliacoes
         .Include(a => a.Foto)
         .Include(a => a.Usuario)
+        .Where(a => a.RemovidoEm == null)
         .FirstOrDefaultAsync(a => a.Id == avaliacaoId);
 
     public async Task<IEnumerable<Avaliacao>> GetFotoAvaliacoes(int fotoId) =>
@@ -28,6 +29,7 @@ namespace Tully.Api.Repositories
         .Include(a => a.Foto)
         .Include(a => a.Usuario)
         .Where(a => a.FotoId == fotoId)
+        .Where(a => a.RemovidoEm == null)
         .ToListAsync();
   }
 }

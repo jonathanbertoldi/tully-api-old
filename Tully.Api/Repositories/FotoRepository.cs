@@ -23,6 +23,7 @@ namespace Tully.Api.Repositories
         .Include(a => a.Desafio)
         .Include(a => a.Usuario)
         .Include(a => a.Avaliacoes)
+          .ThenInclude(a => a.Usuario)
         .FirstOrDefaultAsync(a => a.Id == fotoId);
 
     public async Task<IEnumerable<Foto>> GetUsuarioFotos(int usuarioId) =>
@@ -31,6 +32,7 @@ namespace Tully.Api.Repositories
         .Include(a => a.Desafio)
         .Include(a => a.Usuario)
         .Include(a => a.Avaliacoes)
+          .ThenInclude(a => a.Usuario)
         .Where(a => a.UsuarioId == usuarioId)
         .OrderByDescending(a => a.CriadoEm)
         .ToListAsync();
