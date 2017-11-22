@@ -35,7 +35,7 @@ namespace Tully.Api.Repositories
         .Include(a => a.Avaliacoes)
         .Include(a => a.Usuario)
         .Include(a => a.Desafio)
-        .Where(a => fotos.Any(b => b.Id == a.Id))
+        .Where(a => fotos.Any(b => b.Id == a.Id) || a.UsuarioId == usuarioId)
         .OrderByDescending(a => a.CriadoEm)
         .ToListAsync();
     }

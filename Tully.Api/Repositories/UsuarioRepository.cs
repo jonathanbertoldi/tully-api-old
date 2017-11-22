@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tully.Api.Data;
@@ -39,6 +41,17 @@ namespace Tully.Api.Repositories
         .Where(a => a.Roles.Any(r => r.RoleId == perfilUsuario.Id))
         .Where(a => a.RemovidoEm == null)
         .FirstOrDefaultAsync(a => a.Id == id);
+    }
+
+    public async Task<IEnumerable<Usuario>> GetRankingGeral()
+    {
+      var perfilUsuario = await _roleManager.FindByNameAsync("Usuario");
+
+      return await _context.Users
+        .Where(a => a.Roles.Any(r => r.RoleId == perfilUsuario.Id))
+        .Where(a => a.RemovidoEm == null)
+        .OrderByDescending(a => a.Experiencia)
+        .ToListAsync();
     }
   }
 }

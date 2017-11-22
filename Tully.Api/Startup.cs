@@ -54,6 +54,7 @@ namespace Tully.Api
       services.AddScoped<IRelacionamentoRepository, RelacionamentoRepository>();
       services.AddScoped<ITimelineRepository, TimelineRepository>();
       services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
+      services.AddScoped<INotificacaoRepository, NotificacaoRepository>();
 
       services.AddCors(config =>
       {

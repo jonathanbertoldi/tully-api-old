@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tully.Api.Models;
 
 namespace Tully.Api.Repositories.Contracts
@@ -7,5 +8,6 @@ namespace Tully.Api.Repositories.Contracts
   {
     Task<Usuario> GetAdministrador(int id);
     Task<Usuario> GetUsuario(int id);
+    Task<IEnumerable<Usuario>> GetRankingGeral();
   }
 }

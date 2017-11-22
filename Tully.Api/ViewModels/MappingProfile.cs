@@ -4,6 +4,7 @@ using Tully.Api.ViewModels.AdminViewModels;
 using Tully.Api.ViewModels.AvaliacaoViewModels;
 using Tully.Api.ViewModels.DesafioViewModels;
 using Tully.Api.ViewModels.FotoViewModels;
+using Tully.Api.ViewModels.NotificacaoViewModels;
 using Tully.Api.ViewModels.RelacionamentoViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
 
@@ -39,6 +40,8 @@ namespace Tully.Api.ViewModels
 
       CreateMap<Avaliacao, AvaliacaoViewModel>();
       CreateMap<AvaliacaoPostViewModel, Avaliacao>();
+
+      CreateMap<Notificacao, NotificacaoViewModel>();
     }
   }
 }
