@@ -32,7 +32,8 @@ namespace Tully.Api.ViewModels
 
       CreateMap<Foto, FotoViewModel>()
         .ForMember(a => a.Curtidas, opt => opt.ResolveUsing<FotoCurtidasResolver>())
-        .ForMember(a => a.Descurtidas, opt => opt.ResolveUsing<FotoDescurtidasResolver>());
+        .ForMember(a => a.Descurtidas, opt => opt.ResolveUsing<FotoDescurtidasResolver>())
+        .ForMember(a => a.Avaliacao, opt => opt.ResolveUsing<FotoAvaliacaoUsuarioLogadoResolver>());
       CreateMap<FotoPostViewModel, Foto>();
 
       CreateMap<Relacionamento, RelacionamentoViewModel>();
@@ -40,6 +41,7 @@ namespace Tully.Api.ViewModels
 
       CreateMap<Avaliacao, AvaliacaoViewModel>();
       CreateMap<AvaliacaoPostViewModel, Avaliacao>();
+      CreateMap<Avaliacao, AvaliacaoSimplesViewModel>();
 
       CreateMap<Notificacao, NotificacaoViewModel>();
     }

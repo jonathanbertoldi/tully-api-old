@@ -1,4 +1,5 @@
 ﻿using System;
+using Tully.Api.ViewModels.AvaliacaoViewModels;
 using Tully.Api.ViewModels.DesafioViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
 
@@ -13,5 +14,6 @@ namespace Tully.Api.ViewModels.FotoViewModels
     public DateTime CriadoEm { get; set; }
     public UsuarioViewModel Usuario { get; set; }
     public DesafioViewModel Desafio { get; set; }
+    public AvaliacaoSimplesViewModel Avaliacao { get; set; }
   }
 }

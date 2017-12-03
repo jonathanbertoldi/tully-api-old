@@ -14,11 +14,16 @@ namespace Tully.Api.Controllers
   {
     private ITimelineRepository _timelineRepository;
     private IUsuarioRepository _usuarioRepository;
+    private IMapper _mapper;
 
-    public TimelineController(ITimelineRepository timelineRepository, IUsuarioRepository usuarioRepository)
+    public TimelineController(
+      ITimelineRepository timelineRepository, 
+      IUsuarioRepository usuarioRepository,
+      IMapper mapper)
     {
-        _timelineRepository = timelineRepository;
-        _usuarioRepository = usuarioRepository;
+      _timelineRepository = timelineRepository;
+      _usuarioRepository = usuarioRepository;
+      _mapper = mapper;
     }
 
     [Route("{usuarioId}/timeline")]
@@ -30,7 +35,7 @@ namespace Tully.Api.Controllers
 
       var timeline = await _timelineRepository.GetUsuarioTimeline(usuarioId);
 
-      var result = Mapper.Map<IEnumerable<FotoViewModel>>(timeline);
+      var result = _mapper.Map<IEnumerable<FotoViewModel>>(timeline);
 
       return Ok(result);
     }

@@ -19,17 +19,20 @@ namespace Tully.Api.Controllers
     private IUsuarioRepository _usuarioRepository;
     private IFotoRepository _fotoRepository;
     private IDesafioRepository _desafioRepository;
+    private IMapper _mapper;
 
     public FotoController(
       IRepository repository,
       IUsuarioRepository usuarioRepository,
       IFotoRepository fotoRepository,
-      IDesafioRepository desafioRepository)
+      IDesafioRepository desafioRepository,
+      IMapper mapper)
     {
       _repository = repository;
       _usuarioRepository = usuarioRepository;
       _fotoRepository = fotoRepository;
       _desafioRepository = desafioRepository;
+      _mapper = mapper;
     }
 
     [HttpGet("fotos/{fotoId}", Name = "GetFoto")]
@@ -39,7 +42,7 @@ namespace Tully.Api.Controllers
 
       if (foto == null) return NotFound();
 
-      var result = Mapper.Map<FotoViewModel>(foto);
+      var result = _mapper.Map<FotoViewModel>(foto);
 
       return Ok(result);
     }
@@ -53,7 +56,7 @@ namespace Tully.Api.Controllers
 
       var fotos = await _fotoRepository.GetUsuarioFotos(usuarioId);
 
-      var result = Mapper.Map<IEnumerable<FotoViewModel>>(fotos);
+      var result = _mapper.Map<IEnumerable<FotoViewModel>>(fotos);
 
       return Ok(result);
     }
@@ -74,14 +77,14 @@ namespace Tully.Api.Controllers
       if (!usuarioFotos.Any(a => a.DesafioId == desafio.Id))
         usuario.Experiencia += 10;
 
-      var foto = Mapper.Map<Foto>(model);
+      var foto = _mapper.Map<Foto>(model);
 
       await _repository.Add(foto);
       await _repository.SaveAllAsync();
 
       foto = await _fotoRepository.GetFoto(foto.Id);
 
-      var result = Mapper.Map<FotoViewModel>(foto);
+      var result = _mapper.Map<FotoViewModel>(foto);
 
       return CreatedAtRoute("GetFoto", new { fotoId = foto.Id }, result);
     }
