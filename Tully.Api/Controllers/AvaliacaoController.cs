@@ -81,7 +81,7 @@ namespace Tully.Api.Controllers
       if (check != null)
         return BadRequest(new MessageViewModel("User already liked or disliked this photo"));
 
-      var avaliacao = Mapper.Map<Avaliacao>(model);
+      var avaliacao = _mapper.Map<Avaliacao>(model);
 
       await _repository.Add(avaliacao);
       await _repository.SaveAllAsync();
