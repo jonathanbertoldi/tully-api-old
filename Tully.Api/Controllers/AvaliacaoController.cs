@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tully.Api.Filters;
 using Tully.Api.Models;
@@ -20,15 +21,18 @@ namespace Tully.Api.Controllers
     private IRepository _repository;
     private IAvaliacaoRepository _avaliacaoRepository;
     private IFotoRepository _fotoRepository;
+    private IMapper _mapper;
 
     public AvaliacaoController(
       IRepository repository, 
       IAvaliacaoRepository avaliacaoRepository,
-      IFotoRepository fotoRepository)
+      IFotoRepository fotoRepository,
+      IMapper mapper)
     {
       _repository = repository;
       _avaliacaoRepository = avaliacaoRepository;
       _fotoRepository = fotoRepository;
+      _mapper = mapper;
     }
 
     [HttpGet("avaliacoes/{avaliacaoId}", Name = "GetAvaliacao")]
@@ -38,7 +42,7 @@ namespace Tully.Api.Controllers
 
       if (avaliacao == null) return NotFound();
 
-      var result = Mapper.Map<AvaliacaoViewModel>(avaliacao);
+      var result = _mapper.Map<AvaliacaoViewModel>(avaliacao);
 
       return Ok(result);
     }
@@ -52,7 +56,7 @@ namespace Tully.Api.Controllers
 
       var avaliacoes = await _avaliacaoRepository.GetFotoAvaliacoes(fotoId);
 
-      var result = Mapper.Map<IEnumerable<AvaliacaoViewModel>>(avaliacoes);
+      var result = _mapper.Map<IEnumerable<AvaliacaoViewModel>>(avaliacoes);
 
       return Ok(result);
     }
@@ -61,12 +65,21 @@ namespace Tully.Api.Controllers
     [HttpPost("fotos/{fotoId}/avaliacoes")]
     public async Task<IActionResult> PostAvaliacao(int fotoId, [FromBody] AvaliacaoPostViewModel model)
     {
-      if (!CheckId(HttpContext.GetLoggedUserId(), model.UsuarioId.Value) || !CheckId(fotoId, model.FotoId.Value))
+      var loggedUserId = HttpContext.GetLoggedUserId();
+
+      if (!CheckId(loggedUserId, model.UsuarioId.Value) || !CheckId(fotoId, model.FotoId.Value))
         return BadRequest(new MessageViewModel("URL and Model ids do not match"));
 
       var foto = await _fotoRepository.GetFoto(fotoId);
 
       if (foto == null) return NotFound();
+
+      var check = foto.Avaliacoes
+        .Where(a => !a.RemovidoEm.HasValue)
+        .FirstOrDefault(a => a.UsuarioId == loggedUserId);
+
+      if (check != null)
+        return BadRequest(new MessageViewModel("User already liked or disliked this photo"));
 
       var avaliacao = Mapper.Map<Avaliacao>(model);
 
@@ -75,7 +88,7 @@ namespace Tully.Api.Controllers
 
       avaliacao = await _avaliacaoRepository.GetAvaliacao(avaliacao.Id);
 
-      var result = Mapper.Map<AvaliacaoViewModel>(avaliacao);
+      var result = _mapper.Map<AvaliacaoViewModel>(avaliacao);
 
       return CreatedAtRoute("GetAvaliacao", new { avaliacaoId = avaliacao.Id }, result);
     }
