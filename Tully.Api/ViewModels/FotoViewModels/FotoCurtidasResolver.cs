@@ -10,6 +10,7 @@ namespace Tully.Api.ViewModels.FotoViewModels
     public int Resolve(Foto source, FotoViewModel destination, int destMember, ResolutionContext context) => 
       source.Avaliacoes
         .Where(a => a.Tipo == TipoAvaliacao.Positivo)
+        .Where(a => !a.RemovidoEm.HasValue)
         .Count();
   }
 }

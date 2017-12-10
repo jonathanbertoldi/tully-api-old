@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tully.Api.Data;
 using Tully.Api.Filters;
 using Tully.Api.Models;
+using Tully.Api.Services;
 using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
 
@@ -94,9 +95,12 @@ namespace Tully.Api.Controllers
       if (patchDocument == null) return BadRequest();
 
       var usuario = await _userManager.FindByIdAsync(usuarioId.ToString());
+
+      if (usuario == null) return NotFound();
+
       var isUsuario = await _userManager.IsInRoleAsync(usuario, "Usuario");
 
-      if (usuario == null || !isUsuario) return NotFound();
+      if (!isUsuario) return NotFound();
 
       var usuarioToPatch = Mapper.Map<UsuarioUpdateViewModel>(usuario);
       patchDocument.ApplyTo(usuarioToPatch, ModelState);

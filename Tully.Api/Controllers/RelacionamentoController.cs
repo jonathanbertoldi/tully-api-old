@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tully.Api.Models;
 using Tully.Api.Repositories.Contracts;
+using Tully.Api.Services;
 using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.RelacionamentoViewModels;
 using Tully.Api.ViewModels.UsuarioViewModels;
@@ -94,9 +95,13 @@ namespace Tully.Api.Controllers
       if (check != null) return BadRequest(new MessageViewModel("User already follows the target"));
 
       var relacionamento = Mapper.Map<Relacionamento>(model);
+      var notificacao = new Notificacao(usuario.Nome, seguido, TipoNotificacao.Seguindo);
 
       await _repository.Add(relacionamento);
+      await _repository.Add(notificacao);
       await _repository.SaveAllAsync();
+
+      await notificacao.SendNotification();
 
       var result = Mapper.Map<RelacionamentoViewModel>(relacionamento);
       

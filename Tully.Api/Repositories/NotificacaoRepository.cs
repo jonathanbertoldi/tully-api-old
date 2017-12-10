@@ -26,6 +26,7 @@ namespace Tully.Api.Repositories
       await _context.Notificacoes
         .Include(a => a.Usuario)
         .Where(a => a.UsuarioId == usuarioId)
+        .OrderByDescending(a => a.Id)
         .ToListAsync();
   }
 }

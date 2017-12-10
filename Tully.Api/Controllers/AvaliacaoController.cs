@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Tully.Api.Filters;
 using Tully.Api.Models;
 using Tully.Api.Repositories.Contracts;
+using Tully.Api.Services;
 using Tully.Api.Utils;
 using Tully.Api.ViewModels;
 using Tully.Api.ViewModels.AvaliacaoViewModels;
@@ -19,17 +20,20 @@ namespace Tully.Api.Controllers
   public class AvaliacaoController : Controller
   {
     private IRepository _repository;
+    private IUsuarioRepository _usuarioRepository;
     private IAvaliacaoRepository _avaliacaoRepository;
     private IFotoRepository _fotoRepository;
     private IMapper _mapper;
 
     public AvaliacaoController(
       IRepository repository, 
+      IUsuarioRepository usuarioRepository,
       IAvaliacaoRepository avaliacaoRepository,
       IFotoRepository fotoRepository,
       IMapper mapper)
     {
       _repository = repository;
+      _usuarioRepository = usuarioRepository;
       _avaliacaoRepository = avaliacaoRepository;
       _fotoRepository = fotoRepository;
       _mapper = mapper;
@@ -74,6 +78,8 @@ namespace Tully.Api.Controllers
 
       if (foto == null) return NotFound();
 
+      var usuario = await _usuarioRepository.GetUsuario(loggedUserId);
+
       var check = foto.Avaliacoes
         .Where(a => !a.RemovidoEm.HasValue)
         .FirstOrDefault(a => a.UsuarioId == loggedUserId);
@@ -82,9 +88,13 @@ namespace Tully.Api.Controllers
         return BadRequest(new MessageViewModel("User already liked or disliked this photo"));
 
       var avaliacao = _mapper.Map<Avaliacao>(model);
+      var notificacao = new Notificacao(usuario.Nome, foto.Usuario, TipoNotificacao.Avaliacao);
 
       await _repository.Add(avaliacao);
+      await _repository.Add(notificacao);
       await _repository.SaveAllAsync();
+
+      await notificacao.SendNotification();
 
       avaliacao = await _avaliacaoRepository.GetAvaliacao(avaliacao.Id);
 
