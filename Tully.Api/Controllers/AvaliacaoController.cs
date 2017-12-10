@@ -119,7 +119,7 @@ namespace Tully.Api.Controllers
 
       await _repository.SaveAllAsync();
 
-      return NoContent();
+      return Ok();
     }
 
     [NonAction]

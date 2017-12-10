@@ -34,7 +34,9 @@ namespace Tully.Api.ViewModels.FotoViewModels
 
       if (usuario == null) return null;
 
-      var avaliacao = source.Avaliacoes.FirstOrDefault(a => a.UsuarioId == usuarioId);
+      var avaliacao = source.Avaliacoes
+        .Where(a => !a.RemovidoEm.HasValue)
+        .FirstOrDefault(a => a.UsuarioId == usuarioId);
 
       if (avaliacao == null) return null;
 
